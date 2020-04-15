@@ -1,5 +1,6 @@
 from functools import partial
 from PyQt5.QtCore import *
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import *
 from EGEaudioRec.src.OGEForm import OGEForm
 
@@ -20,7 +21,8 @@ class FirstForm(QWidget):
     def ogeHandler(self):
         self.clearLayout(self.hbox)
         oge = OGEForm()
-        self.hbox.addWidget(oge)
+        self.vbox.addWidget(oge)
+        #self.vbox.addWidget(oge)
         self.startTimer(self.x)
 
     def egeHandler(self):
@@ -28,24 +30,35 @@ class FirstForm(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.hbox = QHBoxLayout(self)
-        self.upperHbox = QHBoxLayout(self)
+        self.grid = QGridLayout(self)
         label = QLabel()
         label.setText('Варианты экзамена')
-        # label.move(0,0)
+        label.setAlignment(Qt.AlignCenter)
+        pix = QPixmap("../images/exam.jpg")
+        print(pix.isNull())
+        pix = pix.scaled(QSize(100, 100), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        label.setPixmap(pix)
+        label.setScaledContents(True)
+
         button1 = QPushButton('ОГЭ')
+        button1.setMinimumHeight(500)
         button1.setToolTip('Начать тест ОГЭ')
-        # button1.move(10,10)
         button1.clicked.connect(partial(self.ogeHandler))
 
         button2 = QPushButton('ЕГЭ')
         button2.setToolTip('Начать тест ЕГЭ')
-        # button2.move(150,10)
+        button2.setMinimumHeight(500)
         button2.clicked.connect(self.egeHandler)
+        self.grid.setRowStretch(0, 0)
+        self.grid.setRowStretch(2, 0)
+        self.grid.setRowStretch(1, 0)
+        self.grid.setColumnStretch(0, 0)
+        self.grid.setColumnStretch(1, 0)
 
-        self.upperHbox.addWidget(label)
-        self.hbox.addWidget(button1)
-        self.hbox.addWidget(button2)
+        self.grid.addWidget(label,1,0,1,0)
+        self.grid.addWidget(button1,3,0)
+        self.grid.setRowStretch(3,0)
+        self.grid.addWidget(button2,3,1)
 
     def startTimer(self, duration):
         timer = QTimer()
