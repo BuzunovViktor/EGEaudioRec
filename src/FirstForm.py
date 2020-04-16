@@ -8,22 +8,13 @@ class FirstForm(QWidget):
     x = 6000
 
     def clearLayout(self, layout):
-        item = layout.takeAt(0)
-        while item:
-            w = item.widget()
-            if w:
-                w.deleteLater()
-            lay = item.layout()
-            if lay:
-                self.clearLayout(item.layout())
-            item = layout.takeAt(0)
+        for i in reversed(range(layout.count())):
+            layout.itemAt(i).widget().deleteLater()
 
     def ogeHandler(self):
-        self.clearLayout(self.hbox)
+        #self.clearLayout(self.grid)
         oge = OGEForm()
-        self.vbox.addWidget(oge)
-        #self.vbox.addWidget(oge)
-        self.startTimer(self.x)
+        self.grid.addWidget(oge)
 
     def egeHandler(self):
         print()
