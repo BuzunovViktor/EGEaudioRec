@@ -12,7 +12,7 @@ class FirstForm(QWidget):
             layout.itemAt(i).widget().deleteLater()
 
     def ogeHandler(self):
-        #self.clearLayout(self.grid)
+        self.clearLayout(self.grid)
         oge = OGEForm()
         self.grid.addWidget(oge)
 
@@ -26,7 +26,6 @@ class FirstForm(QWidget):
         label.setText('Варианты экзамена')
         label.setAlignment(Qt.AlignCenter)
         pix = QPixmap("../images/exam.jpg")
-        print(pix.isNull())
         pix = pix.scaled(QSize(100, 100), Qt.KeepAspectRatio, Qt.SmoothTransformation)
         label.setPixmap(pix)
         label.setScaledContents(True)
