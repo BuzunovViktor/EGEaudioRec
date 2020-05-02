@@ -1,7 +1,11 @@
 from functools import partial
+
+from PyQt5 import QtGui
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import *
+
+from EGEaudioRec.src.EGEForm import EGEForm
 from EGEaudioRec.src.OGEForm import OGEForm
 
 class FirstForm(QWidget):
@@ -17,25 +21,33 @@ class FirstForm(QWidget):
         self.grid.addWidget(oge)
 
     def egeHandler(self):
-        print()
+        self.clearLayout(self.grid)
+        ege = EGEForm()
+        self.grid.addWidget(ege)
 
     def __init__(self):
         super().__init__()
         self.grid = QGridLayout(self)
+        self.setMaximumWidth(1250)
         label = QLabel()
         label.setText('Варианты экзамена')
         label.setAlignment(Qt.AlignCenter)
         pix = QPixmap("../images/exam.jpg")
-        pix = pix.scaled(QSize(100, 100), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        #pix.scaledToWidth(1200)
+        pix = pix.scaled(QSize(1200, 450), Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
         label.setPixmap(pix)
-        label.setScaledContents(True)
+        #label.setMaximumSize(1200,500)
+        #label.setScaledContents(True)
+        label.adjustSize()
 
         button1 = QPushButton('ОГЭ')
+        button1.setFont(QtGui.QFont('Arial', 30, QtGui.QFont.Bold))
         button1.setMinimumHeight(500)
         button1.setToolTip('Начать тест ОГЭ')
         button1.clicked.connect(partial(self.ogeHandler))
 
         button2 = QPushButton('ЕГЭ')
+        button2.setFont(QtGui.QFont('Arial', 30, QtGui.QFont.Bold))
         button2.setToolTip('Начать тест ЕГЭ')
         button2.setMinimumHeight(500)
         button2.clicked.connect(self.egeHandler)
