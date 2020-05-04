@@ -1,6 +1,6 @@
 import threading
 
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from EGEaudioRec.src.Recording import Recording
@@ -87,7 +87,7 @@ class EGEForm(QWidget):
         self.endTimer.timeout.connect(lambda: self.endTick())
         self.endTimer.start()
 
-    def prepareTimer(self):
+    def prepareTimer(self, sec):
         self.seconds = 5
         self.prepareTimer = QTimer()
         self.prepareTimer.setInterval(1000)
@@ -99,7 +99,7 @@ class EGEForm(QWidget):
         self.timeLabel.setMinimumWidth(100)
         if self.seconds == 0:
             self.invertedTimer.stop()
-            self.prepareTimer()
+            self.prepareTimer(10)
             return
         self.seconds -= 1
 
@@ -114,11 +114,14 @@ class EGEForm(QWidget):
         self.label = QLabel()
         self.pix = QPixmap("../images/21.png")
         self.label.setPixmap(self.pix)
+        self.label.setAlignment(Qt.AlignCenter)
+
+        self.grid.addWidget(self.label, 1, 0, 1, 0)
 
         self.timeLabel = QLabel()
         self.timeLabel.setFont(QFont('Arial', 30, QFont.Bold))
 
-        self.grid.addWidget(self.label)
+        self.grid.addWidget(self.label, 1, 0, 1, 0)
         self.grid.addWidget(self.timeLabel)
 
         self.fiveSecTimer()
@@ -126,6 +129,7 @@ class EGEForm(QWidget):
     def showTask2(self):
         self.pix = QPixmap("../images/22.png")
         self.label.setPixmap(self.pix)
+        self.label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
         self.fiveSecTimer()
 

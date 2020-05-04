@@ -9,7 +9,6 @@ from EGEaudioRec.src.EGEForm import EGEForm
 from EGEaudioRec.src.OGEForm import OGEForm
 
 class FirstForm(QWidget):
-    x = 6000
 
     def clearLayout(self, layout):
         for i in reversed(range(layout.count())):
@@ -28,16 +27,14 @@ class FirstForm(QWidget):
     def __init__(self):
         super().__init__()
         self.grid = QGridLayout(self)
-        self.setMaximumWidth(1250)
+        self.setStyleSheet("border: 1px solid #3873d9;")
+        self.setMaximumWidth(1220)
         label = QLabel()
         label.setText('Варианты экзамена')
         label.setAlignment(Qt.AlignCenter)
         pix = QPixmap("../images/exam.jpg")
-        #pix.scaledToWidth(1200)
-        pix = pix.scaled(QSize(1200, 450), Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
+        pix = pix.scaled(QSize(1220, 450), Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
         label.setPixmap(pix)
-        #label.setMaximumSize(1200,500)
-        #label.setScaledContents(True)
         label.adjustSize()
 
         button1 = QPushButton('ОГЭ')
@@ -62,16 +59,3 @@ class FirstForm(QWidget):
         self.grid.setRowStretch(3,0)
         self.grid.addWidget(button2,3,1)
 
-    def startTimer(self, duration):
-        timer = QTimer()
-        timer.setInterval(1000)
-        timer.timeout.connect(lambda: self.tick(timer))
-        timer.start()
-
-    def tick(self, timer):
-        print(self.x)
-        # timer.stop()
-
-    def handler(self):
-        print('Button pushed!')
-        self.startTimer(1000)

@@ -1,3 +1,4 @@
+from datetime import datetime
 import threading
 import wave
 import pyaudio
@@ -9,15 +10,15 @@ class Recording:
     CHANNELS = 1
     RATE = 44100
     RECORD_SECONDS = 5
-    WAVE_OUTPUT_FILENAME = "output.wav"
+    WAVE_OUTPUT_FILENAME = "record"
 
     def __init__(self, label):
         self.lock = threading.Lock()
         self.frames = []
         self.label = label
 
-    def start(self, time):
-        self.RECORD_SECONDS = time;
+    def start(self, seconds):
+        self.RECORD_SECONDS = seconds
         try:
             print("* recording")
             self.p = pyaudio.PyAudio()
@@ -40,7 +41,7 @@ class Recording:
         self.stream.close()
         self.p.terminate()
 
-        wf = wave.open(self.WAVE_OUTPUT_FILENAME, 'wb')
+        wf = wave.open(str(self.WAVE_OUTPUT_FILENAME) + "_" + str(datetime.utcnow()) + ".wav", 'wb')
         wf.setnchannels(self.CHANNELS)
         wf.setsampwidth(self.p.get_sample_size(self.FORMAT))
         wf.setframerate(self.RATE)
