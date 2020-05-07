@@ -1,6 +1,8 @@
 from datetime import datetime
 import threading
 import wave
+from time import strftime
+
 import pyaudio
 
 
@@ -41,7 +43,7 @@ class Recording:
         self.stream.close()
         self.p.terminate()
 
-        wf = wave.open(str(self.WAVE_OUTPUT_FILENAME) + "_" + str(datetime.utcnow()) + ".wav", 'wb')
+        wf = wave.open(str(self.WAVE_OUTPUT_FILENAME) + "_" + strftime("%Y_%m_%d_%H_%M_%S") + ".wav", 'wb')
         wf.setnchannels(self.CHANNELS)
         wf.setsampwidth(self.p.get_sample_size(self.FORMAT))
         wf.setframerate(self.RATE)
